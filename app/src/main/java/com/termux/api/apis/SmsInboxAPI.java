@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Conversations;
@@ -240,6 +241,11 @@ public class SmsInboxAPI {
         String smsAddress = c.getString(c.getColumnIndexOrThrow(ADDRESS));
         String smsBody = c.getString(c.getColumnIndexOrThrow(BODY));
         long smsReceivedDate = c.getLong(c.getColumnIndexOrThrow(DATE));
+
+        boolean havePdu = false; 
+        Bundle mBundle = c.getExtras();
+        if (mBundle != null && mBundle.containsKey("pdu"))
+          havePdu = true;
         // long smsSentDate = c.getLong(c.getColumnIndexOrThrow(TextBasedSmsColumns.DATE_SENT));
         int smsID = c.getInt(c.getColumnIndexOrThrow("_id"));
 
@@ -249,6 +255,9 @@ public class SmsInboxAPI {
         out.beginObject();
         out.name("threadid").value(threadID);
         out.name("type").value(messageType);
+        out.name("havePdu").value(havePdu);
+        for (String k : mBundle.keySet())
+          out.name(k).value(true);
 
         index = c.getColumnIndex(READ);
         if (index >= 0) {

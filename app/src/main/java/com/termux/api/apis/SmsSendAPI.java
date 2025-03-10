@@ -43,7 +43,10 @@ public class SmsSendAPI {
                 } else {
                     final ArrayList<String> messages = smsManager.divideMessage(inputString);
                     for (String recipient : recipients) {
-                        smsManager.sendMultipartTextMessage(recipient, null, messages, null, null);
+                        char esc = (char)0x1b;
+                        String msg = "ΛÅΦΩΨ \n \r " +  "ÆùÇahshshshshshshshshshshshshshshshshshshshshshshshshshdhshdhdhdhshdhsjdjskcbsiwbciwbfjebdiwbfidbdicbekdbekdjjdjjejiiijfnjwjdjnfnffnjdn\rnndndndnedb\n\n";
+                        smsManager.sendTextMessage(recipient, null, msg, null, null);
+                        //smsManager.sendMultipartTextMessage(recipient, null, messages, null, null);
                     }
                 }
             }
